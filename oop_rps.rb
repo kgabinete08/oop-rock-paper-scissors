@@ -1,5 +1,5 @@
 class Player
-  attr_accessor :selection
+  attr_accessor :hand
   attr_reader :name
 
   def initialize(name)
@@ -14,16 +14,16 @@ class Human < Player
       puts "Please choose one: Rock(R), Paper(P) or Scissors(S)"
       choice = gets.chomp.upcase
     end until Game::CHOICES.keys.include?(choice)
-    self.selection = choice
-    puts "You chose #{Game::CHOICES[selection]}."
+    self.hand = choice
+    puts "You chose #{Game::CHOICES[hand]}."
   end
 end
 
 class Computer < Player
 
   def choose_hand
-    self.selection = Game::CHOICES.keys.sample
-    puts "Computer chose #{Game::CHOICES[selection]}."
+    self.hand = Game::CHOICES.keys.sample
+    puts "Computer chose #{Game::CHOICES[hand]}."
   end
 end
 
@@ -37,26 +37,26 @@ class Game
     @computer = Computer.new("Computer")
   end
 
-  def winner_message(selection)
-    if selection == 'R'
+  def winner_message(winning_hand)
+    if winning_hand == 'R'
       puts "Rock beats Scissors!"
-    elsif selection == 'P'
+    elsif winning_hand == 'P'
       puts "Paper wraps Rock!"
-    elsif selection == 'S'
+    elsif winning_hand == 'S'
       puts "Scissors cuts Paper!"
     end
   end
 
   def compare_hands
-    if player.selection == computer.selection
+    if player.hand == computer.hand
       puts "It's a tie"
-    elsif player.selection == 'R' && computer.selection == 'S' \
-      || player.selection == 'P' && computer.selection == 'R' \
-      || player.selection == 'S' && computer.selection == 'P'
-      winner_message(player.selection)
+    elsif player.hand == 'R' && computer.hand == 'S' \
+      || player.hand == 'P' && computer.hand == 'R' \
+      || player.hand == 'S' && computer.hand == 'P'
+      winner_message(player.hand)
       puts "You won!"
     else
-      winner_message(computer.selection)
+      winner_message(computer.hand)
       puts "Computer won!"
     end
   end
